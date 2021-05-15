@@ -1,2 +1,13 @@
-package com.bccoder.helloword.controller;public class HelloController {
+package com.bccoder.helloword.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class HelloController {
+
+    @RequestMapping("hello")
+    public String hello(){
+        return "Hello World Spring Boot 2.4.4！！！";
+    }
 }
