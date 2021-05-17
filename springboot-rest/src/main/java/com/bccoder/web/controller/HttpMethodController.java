@@ -17,6 +17,7 @@ public class HttpMethodController {
         user.setAge("18");
         return user;
     }
+
     @PostMapping(value = "get/all/post.json")
     public @ResponseBody User post(){
         User user = new User();
@@ -25,6 +26,7 @@ public class HttpMethodController {
         user.setAge("18");
         return user;
     }
+
     @PutMapping(value = "get/all/put.json")
     public @ResponseBody User put(){
         User user = new User();
@@ -33,6 +35,7 @@ public class HttpMethodController {
         user.setAge("18");
         return user;
     }
+
     @DeleteMapping(value = "get/all/delete.json")
     public @ResponseBody User delete(){
         User user = new User();
@@ -41,6 +44,7 @@ public class HttpMethodController {
         user.setAge("18");
         return user;
     }
+
     @PatchMapping(value = "get/all/patch.json")
     public @ResponseBody User patch(){
         User user = new User();
@@ -59,6 +63,7 @@ public class HttpMethodController {
         user.setAge("18");
         return user;
     }
+
     @GetMapping(value = "get/test.json",produces = "application/json")
     @ResponseBody
     public User getUser(){
@@ -68,9 +73,22 @@ public class HttpMethodController {
         user.setAge("18");
         return user;
     }
-    @GetMapping(value = "get/testStr.json",produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @GetMapping(value = "get/testStr",produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public String getStr(){
         return "Hello";
+    }
+
+    @GetMapping(value = "get/params",params = "test=abc")
+    @ResponseBody
+    public String paramsMethod(){
+        return "Hello params";
+    }
+
+    @GetMapping(value = "get/headers",headers = "host=localhost:8080")
+    @ResponseBody
+    public String headerMethod(){
+        return "Hello headers";
     }
 }
