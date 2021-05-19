@@ -3,6 +3,12 @@ package com.bccoder.web.controller;
 import com.bccoder.web.entity.User;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.Map;
+
 /**
  * @RestControlloer = @Controller + @ResponseBody
  */
@@ -44,5 +50,39 @@ public class MethodParamsController {
     @GetMapping(path="/update4.json")
     public User getUser4(User user){
         return user;
+    }
+
+    @GetMapping(path="/header1.json")
+    public String getHeader1(@RequestHeader(value = "Host",defaultValue = "0.0.0.0",required = true)String host, @RequestHeader Map<String,String> headsMap){
+        headsMap.put("Host",host);
+        return headsMap.toString();
+    }
+
+    @PostMapping(path="/getbodys.json")
+    public User getBody(@RequestBody User user){
+        return user;
+    }
+
+    @GetMapping(path = "session/set.json")
+    public String setSessionAttribute(HttpSession session){
+        session.setAttribute("test","test set session");
+        return "success";
+    }
+    @GetMapping(path = "session/get.json")
+    public String getSessionAttribute(@SessionAttribute("test")String test){
+        return "get session attribut:"+test;
+    }
+
+    @GetMapping(path = "/cookie/set.json")
+    public String setCookieAttribute(HttpServletRequest request, HttpServletResponse response){
+        Cookie cookie = new Cookie("test","testSetCookie");
+        cookie.setPath(request.getContextPath());
+        cookie.setMaxAge(100000);
+        response.addCookie(cookie);
+        return "success";
+    }
+    @GetMapping(path = "/cookie/get.json")
+    public String getCookieAttribute(@CookieValue("test")String test){
+        return "get cookie attribut:"+test;
     }
 }
