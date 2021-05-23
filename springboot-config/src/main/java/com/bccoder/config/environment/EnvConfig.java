@@ -10,11 +10,8 @@ public class EnvConfig {
     @Autowired
     private Environment env;
 
-    public int getServerPort(){
-        return env.getProperty("server.port",Integer.class);
+    public String getEnv(){
+        return env.getProperty("testEnv");
     }
-
-    public String getName(){
-        return env.getProperty("name");
-    }
+    public String getFilePath(){return env.getProperty("testfilepath");}
 }

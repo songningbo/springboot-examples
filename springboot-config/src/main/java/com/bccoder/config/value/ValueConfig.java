@@ -2,17 +2,24 @@ package com.bccoder.config.value;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
-@PropertySource("classpath:value.properties")
+@Configuration
 public class ValueConfig {
 
-    @Value("${test.value}")
+    @Value("${testValue:test1}")
     private String testValue;
 
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertyConfigure(){
-        return new PropertySourcesPlaceholderConfigurer();
+    @Value("${testfilepath}")
+    private String testpath;
+
+    public String getTestValue() {
+        return testValue;
+    }
+
+    public String getTestpath() {
+        return testpath;
     }
 }

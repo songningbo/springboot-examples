@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    status : 这个用于设置log4j2自身内部的信息输出,可以不设置,当设置成trace时,会看到log4j2内部各种详细输出
+    monitorInterval : Log4j能够自动检测修改配置文件和重新配置本身, 设置间隔秒数。此处表示每隔600秒重读一次配置文件
+-->
+<Configuration status="OFF" monitorInterval="600">
+
+    <!--日志级别：TRACE < DEBUG < INFO < WARN < ERROR < FATAL-->
+    <!--如果设置为WARN，则低于WARN的信息都不会输出-->
+    <Properties>
+        <!-- 配置日志文件输出目录,此处为项目根目录下的logs文件夹 -->
+        <Property name="LOG_HOME">/app/applogs</Property>
+        <!-- 配置日志文件名称前缀 -->
+        <Property name="LOG_FILE_NAME">myapp</Property>
+        <!-- 配置输出日志级别 -->
+        <Property name="LOG_LEVEL">INFO</Property>
+        <!-- 配置日志输出源appender的名称 -->
+        <Property name="APPENDER_NAME">APP-PROVIDER</Property>
+        <!-- 配置子Logger是否继承父Logger的输出源，true-是，false-否，默认true -->
+        <Property name="LOGGER_ADDITIVITY">true</Property>
+
+        <!-- 触发日志文件分割的时间间隔，此配置必须和filePattern协调, 如果后者是精确到HH, 则此配置项单位是小时，若后者精确到dd, 则此配置项单位是天-->
+        <Property name="POLICY_TIME_BASED_INTERVAL">1</Property>
+        <!-- 日志清理规则 从basePath起清理日志文件的目录层级深度 -->
+        <Property name="DELETE_MAX_DEPTH">1</Property>
+        <!-- 日志清理规则 文件名称匹配规则 -->
+        <Property name="DELETE_IF_FILE_NAME">*.log-*</Property>
+        <!-- 日志清理规则 归档日志文件存在时长匹配规则，此配置项必须和filePattern协调, 后者是精确到HH, 这里就要写成xH, xd就不起作用， 另外, 数字最好>2, 否则可能造成删除的时候, 最近的文件还处于被占用状态,导致删除不成功! -->
+        <Property name="DELETE_IF_LAST_MODIFIED_AGE">24H</Property>
+    </Properties>
+
+    <Appenders>
+        <!--这个输出控制台的配置-->
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--控制台只输出level及其以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="${LOG_LEVEL}" onMatch="ACCEPT" onMismatch="DENY"/>
+            <!--日志输出的格式-->
+            <PatternLayout pattern="|%d{yyyy-MM-dd HH:mm:ss.SSS}|%5p|%5t|%4c:%L|%X{transId}|%m|%n" />
+        </Console>
+
+        <RollingRandomAccessFile name="${APPENDER_NAME}" fileName="${LOG_HOME}/${LOG_FILE_NAME}.log"
+                                 filePattern="${LOG_HOME}/${LOG_FILE_NAME}.log-%d{yyyyMMddHH}">
+            <PatternLayout pattern="|%d{yyyy-MM-dd HH:mm:ss.SSS}|%5p|%5t|%4c:%L|%X{transId}|%m|%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="${POLICY_TIME_BASED_INTERVAL}"/>
+                <!--<SizeBasedTriggeringPolicy size="50MB"/>-->
+            </Policies>
+            <DefaultRolloverStrategy max="24">
+                <Delete basePath="${LOG_HOME}/" maxDepth="${DELETE_MAX_DEPTH}">
+                    <IfFileName glob="${DELETE_IF_FILE_NAME}" />
+                    <!--!Note: 这里的age必须和filePattern协调, 后者是精确到HH, 这里就要写成xH, xd就不起作用
+                    另外, 数字最好>2, 否则可能造成删除的时候, 最近的文件还处于被占用状态,导致删除不成功!-->
+                    <IfLastModified age="${DELETE_IF_LAST_MODIFIED_AGE}" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingRandomAccessFile>
+    </Appenders>
+
+    <!--然后定义logger，只有定义了logger并引入的appender，appender才会生效-->
+    <Loggers>
+        <Logger name="com.epay.itf" level="${LOG_LEVEL}" additivity="${LOGGER_ADDITIVITY}">
+            <AppenderRef ref="${APPENDER_NAME}"/>
+        </Logger>
+        <Logger name="com.epay.ts.lacs.log" level="${LOG_LEVEL}" additivity="${LOGGER_ADDITIVITY}">
+            <AppenderRef ref="${APPENDER_NAME}"/>
+        </Logger>
+        <Logger name="com.epay.ts.piss" level="${LOG_LEVEL}" additivity="${LOGGER_ADDITIVITY}">
+            <AppenderRef ref="${APPENDER_NAME}"/>
+        </Logger>
+        <Logger name="org.springframework" level="${LOG_LEVEL}" additivity="${LOGGER_ADDITIVITY}">
+            <AppenderRef ref="${APPENDER_NAME}"/>
+        </Logger>
+        <Logger name="com.ctrip.framework" level="${LOG_LEVEL}" additivity="${LOGGER_ADDITIVITY}">
+            <AppenderRef ref="${APPENDER_NAME}"/>
+        </Logger>
+        <Logger name="org.apache" level="${LOG_LEVEL}" additivity="${LOGGER_ADDITIVITY}">
+            <AppenderRef ref="${APPENDER_NAME}"/>
+        </Logger>
+        <Logger name="feign.Logger" level="${LOG_LEVEL}" additivity="${LOGGER_ADDITIVITY}">
+            <AppenderRef ref="${APPENDER_NAME}"/>
+        </Logger>
+
+        <Root level="${LOG_LEVEL}">
+            <Appender-Ref ref="Console"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
