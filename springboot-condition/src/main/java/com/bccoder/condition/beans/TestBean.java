@@ -1,4 +1,4 @@
-package com.example.condition.beans;
+package com.bccoder.condition.beans;
 
 public class TestBean {
     private String name;

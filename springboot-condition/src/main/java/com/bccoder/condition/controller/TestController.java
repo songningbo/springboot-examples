@@ -1,8 +1,7 @@
-package com.example.condition.controller;
+package com.bccoder.condition.controller;
 
-import com.example.condition.beans.MyService;
-import com.example.condition.beans.TestClassCondition;
-import com.example.condition.beans.TestClassMissCondition;
+import com.bccoder.condition.beans.MyService;
+import com.bccoder.condition.beans.TestConditionBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +13,7 @@ public class TestController {
     private MyService myService;
 
     @Autowired
-    private TestClassCondition testClassCondition;
+    private TestConditionBean testClassCondition;
 
 
     @GetMapping("testConfig")
