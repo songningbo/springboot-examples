@@ -1,12 +1,12 @@
 package com.bccoder.condition.annotation;
 
 import com.bccoder.condition.beans.*;
+import com.bccoder.condition.condition.CustomCondition;
 import org.apache.catalina.startup.Tomcat;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
+import org.springframework.boot.autoconfigure.condition.*;
+import org.springframework.boot.system.JavaVersion;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
@@ -24,7 +24,6 @@ public class MyConfiguration {
         System.out.println("myService init......");
         return new MyService(bean);
     }
-
     @Bean
     public TestMissBean getTestMissBean(){
         System.out.println("testMissBean init......");
@@ -32,7 +31,6 @@ public class MyConfiguration {
         bean.setConditionalOnMissBean("test conditional on miss bean");
         return bean;
     }
-
     @Bean
     @ConditionalOnBean(TestBean.class)
     public TestConditionBean getClassCondition(TestBean bean){
@@ -40,7 +38,6 @@ public class MyConfiguration {
         TestConditionBean testClassCondition = new TestConditionBean(bean);
         return testClassCondition;
     }
-
     @Bean
     @ConditionalOnMissingBean(TestBean.class)
     public TestConditionMissBean getClassMissCondition(TestMissBean bean){
@@ -75,5 +72,50 @@ public class MyConfiguration {
         System.out.println("testConditionMissClass2 init......");
         TestConditionMissClass testConditionMissClass = new TestConditionMissClass();
         return testConditionMissClass;
+    }
+    @Bean
+    @ConditionalOnProperty(name = "test.env.name")
+    public TestConditionalOnProperty getConditionOnProperty(){
+        System.out.println("testConditionalOnPropertyName init......");
+        return new TestConditionalOnProperty();
+    }
+    @Bean
+    @ConditionalOnProperty(name = "test.env.having.value",havingValue = "2")
+    public TestConditionalOnProperty getConditionOnPropertyHavingValue(){
+        System.out.println("testConditionalOnPropertyHavingValue init......");
+        return new TestConditionalOnProperty();
+    }
+    @Bean
+    @ConditionalOnProperty(name = "test.env.having.value",matchIfMissing = true)
+    public TestConditionalOnProperty getConditionOnPropertyMatch(){
+        System.out.println("testConditionalOnPropertyMatch init......");
+        return new TestConditionalOnProperty();
+    }
+    @Bean
+    @ConditionalOnExpression(value ="${test.expression}")
+    public TestConditionalExpression getConditionExpression(){
+        System.out.println("testConditionalExpression init......");
+        return new TestConditionalExpression();
+    }
+
+    @Bean
+    @ConditionalOnJava(range = ConditionalOnJava.Range.EQUAL_OR_NEWER,value = JavaVersion.EIGHT)
+    public TestConditionalOnJava getConditionJava(){
+        System.out.println("testConditionalJava init......");
+        return new TestConditionalOnJava();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(TestMultiConditional.class)
+    @ConditionalOnJava(range = ConditionalOnJava.Range.EQUAL_OR_NEWER,value = JavaVersion.EIGHT)
+    public TestMultiConditional getMultiConditional(){
+        System.out.println("testMultiConditional init......");
+        return new TestMultiConditional();
+    }
+    @Bean
+    @Conditional(CustomCondition.class)
+    public TestCustomCondition getCustomConditional(){
+        System.out.println("testCustomCondition init......");
+        return new TestCustomCondition();
     }
 }
