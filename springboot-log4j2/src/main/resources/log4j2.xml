@@ -10,7 +10,7 @@
     <!--如果设置为WARN，则低于WARN的信息都不会输出-->
     <Properties>
         <!-- 配置日志文件输出目录,此处为项目根目录下的logs文件夹 -->
-        <Property name="LOG_HOME">/app/applogs</Property>
+        <Property name="LOG_HOME">/applogs</Property>
         <!-- 配置日志文件名称前缀 -->
         <Property name="LOG_FILE_NAME">myapp</Property>
         <!-- 配置输出日志级别 -->
