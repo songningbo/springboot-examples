@@ -6,7 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 
 @Configuration
-@ComponentScan(value = "com.bccoder.annotation",useDefaultFilters = true,
-        includeFilters = @ComponentScan.Filter(type = FilterType.CUSTOM,classes = {CustomTypeFilter.class}))
+@ComponentScan(value = "com.bccoder.annotation",useDefaultFilters = false,
+        includeFilters = @ComponentScan.Filter(type = FilterType.CUSTOM,
+                classes = {CustomTypeFilter.class}))
 public class UserCustomConfig {
 }

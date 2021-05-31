@@ -19,6 +19,6 @@ public class CustomTypeFilter implements TypeFilter {
         ClassMetadata classMetadata = metadataReader.getClassMetadata();
         String fullyQualifiedName = classMetadata.getClassName();
         String className = fullyQualifiedName.substring(fullyQualifiedName.lastIndexOf(".") + 1);
-        return className.contains("Config") ? true : false;
+        return className.contains("Service") ? true : false;
     }
 }
