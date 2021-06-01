@@ -30,7 +30,7 @@ class SpringbootAnnotationApplicationTests {
     }
     @Test
     void testClasses() {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ClassesConfig.class);
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(UserClassesConfig.class);
         String[] beanDefinitionNames = context.getBeanDefinitionNames();
         for (String name : beanDefinitionNames) {
             if(name.contains("user")){

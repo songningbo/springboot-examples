@@ -6,5 +6,5 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackageClasses = UserNoAnnDao.class)
-public class ClassesConfig {
+public class UserClassesConfig {
 }
