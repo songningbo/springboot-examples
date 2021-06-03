@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Scope;
 @Configuration
 public class ImportConfig {
     @Bean
-    @Qualifier()
     public ImportEntity importConfigTest(){
         return new ImportEntity();
     }
