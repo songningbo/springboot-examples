@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form action="/user/saveOrder.json" method="post">
+      订单名称：<input name="order.name"/>
+      <p>
+        订单明细1：
+        <input name="details[0].name">
+        订单明细2：
+        <input name="details[1].name">
+      </p>
+      <input type="submit" value="提交"/>
+    </form>
+</body>
+</html>
