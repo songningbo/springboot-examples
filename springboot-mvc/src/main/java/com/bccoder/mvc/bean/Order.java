@@ -1,6 +1,7 @@
 package com.bccoder.mvc.bean;
 
 public class Order {
+
     private String name;
 
     public String getName() {
