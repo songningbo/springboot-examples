@@ -20,7 +20,7 @@ import java.util.Date;
 @Slf4j
 @Controller
 @RequestMapping("/user")
-public class TesController {
+public class ModelViewController {
 
     @GetMapping("/{userId}/get.html")
     public String getUser(@PathVariable long userId, Model model){
