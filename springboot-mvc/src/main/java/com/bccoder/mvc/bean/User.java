@@ -1,12 +1,12 @@
 package com.bccoder.mvc.bean;
 
-import com.bccoder.mvc.annotation.CustomValidator;
+import com.bccoder.mvc.annotation.CustomValidatorAnno;
 
 public class User {
     private long id;
     private String name;
 
-    @CustomValidator(max = 10)
+    @CustomValidatorAnno(max = 10)
     private int look;
 
     public long getId() {

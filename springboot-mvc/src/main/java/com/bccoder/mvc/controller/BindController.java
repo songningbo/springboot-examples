@@ -18,6 +18,7 @@ public class BindController {
     protected void initBinder(WebDataBinder binder){
         binder.addCustomFormatter(new DateFormatter("yyyy-MM-dd"));
     }
+
     @ResponseBody
     @GetMapping("/date")
     public String showDate(Date d){
