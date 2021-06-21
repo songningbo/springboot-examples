@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+		PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+		"http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!--配置生成器-->
+<generatorConfiguration >
+	<!--数据库驱动-->
+	<classPathEntry location="mysql-connector-java.jar" />
+
+	<context id="mysql" targetRuntime="MyBatis3" >
+		<!--必须有，否则会生成大量注释-->
+		<commentGenerator>
+			<property name="suppressDate" value="true" />
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		<!--数据库链接地址账号密码-->
+		<jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+						connectionURL="jdbc:mysql://192.168.0.200:3306/boot" userId="root" password="root">
+			<property name="remarks" value="true" />
+		</jdbcConnection>
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+		<!--生成entity类存放位置-->
+		<javaModelGenerator targetPackage="com.bccoder.transaction.persistence.entity"
+							targetProject="../../java">
+			<property name="enableSubPackages" value="true" />
+		</javaModelGenerator>
+		<!--生成映射文件存放位置-->
+		<sqlMapGenerator targetPackage="mybatis.mappers"
+						 targetProject="../../resources">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		<!--生成mapper类存放位置-->
+		<javaClientGenerator type="XMLMAPPER"
+							 targetPackage="com.bccoder.transaction.persistence.mappers" targetProject="../../java">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+		<!--生成对应表及类名-->
+		<table tableName="T_User" domainObjectName="TUser" />
+	</context>
+</generatorConfiguration>

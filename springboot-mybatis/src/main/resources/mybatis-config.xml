@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <properties>
+          <property name="dialect" value="mysql"></property>
+          <property name="pageSqlId" value=".*Page$"></property>
+    </properties>
+
+    <settings>
+        <!-- changes from the defaults-->
+        <setting name="lazyLoadingEnabled" value="false" />
+    </settings>
+
+    <plugins>
+        <plugin interceptor="com.bccoder.mybatis.data.page.PageInterceptor"></plugin>
+    </plugins>
+
+</configuration>
