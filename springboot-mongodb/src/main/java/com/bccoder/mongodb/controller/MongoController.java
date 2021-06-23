@@ -1,11 +1,19 @@
 package com.bccoder.mongodb.controller;
 
 import com.bccoder.mongodb.entity.UserEntity;
-import org.apache.catalina.User;
+import com.mongodb.MongoException;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.mongodb.core.DbCallback;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,7 +66,44 @@ public class MongoController {
     @GetMapping("document/find")
     public List<UserEntity> find(){
         Criteria criteria = Criteria.where("id").gt(1);
-        List<UserEntity> list = mongoTemplate.find(Query.query(criteria),UserEntity.class);
+        Criteria criteria2 = Criteria.where("id").lt(2);
+        List<UserEntity> list = mongoTemplate.find(Query.query(criteria.andOperator(criteria2)),UserEntity.class);
         return list;
     }
+
+    @GetMapping("document/findPage")
+    public List<UserEntity> findPage(){
+        Criteria criteria = Criteria.where("id").in(1,2,3,4,5);
+        Query query = Query.query(criteria);
+        //查询总数
+        long totalCount = mongoTemplate.count(query,UserEntity.class);
+        //每页个数
+        int numOfPage=10;
+        //当前页
+        int pageNum = 1;
+        //计算总数
+        long totalPage = totalCount%numOfPage==0?(totalCount/numOfPage):(totalCount/numOfPage+1);
+        int skip=(pageNum-1)*numOfPage;
+        query.skip(skip).limit(numOfPage);
+        List<UserEntity> list = mongoTemplate.find(query,UserEntity.class);
+        return list;
+    }
+    @GetMapping("document/update")
+    public String update(){
+        Criteria criteria = Criteria.where("id").in(1);
+        Update update = new Update();
+        //自增
+        update.inc("age",1);
+        UpdateResult result = mongoTemplate.updateMulti(Query.query(criteria),update,UserEntity.class);
+        return "修改条数："+result.getModifiedCount();
+    }
+
+    @GetMapping("document/delete")
+    public String delete(){
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(3);
+        DeleteResult result = mongoTemplate.remove(userEntity);
+        return "删除条数："+result.getDeletedCount();
+    }
+
 }
