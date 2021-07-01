@@ -12,7 +12,7 @@ public class MyRedisChannelListener implements MessageListener {
         try{
             String context = new String(bs,"UTF-8");
             String pchannel = new String(channel,"UTF-8");
-            System.out.println(context+"。 from:"+pchannel);
+            System.out.println(context+"; from:"+pchannel);
         }catch(Exception e){
             System.out.println(e);
         }
