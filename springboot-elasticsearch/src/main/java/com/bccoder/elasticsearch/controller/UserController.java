@@ -45,9 +45,8 @@ public class UserController {
     @GetMapping("get/page")
     public Page<UserEntity> getUserSearchPage(){
         int pageCount = 1;
-        int pageSize = 1;
+        int pageSize = 0;
         PageRequest request = PageRequest.of(pageSize,pageCount);
-
         Page<UserEntity> pages = userDao.getByName("tom",request);
         return pages;
     }
